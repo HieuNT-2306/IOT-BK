@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const mqtt = require('mqtt');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-require('dotenv').config();
 
 const mongoURI = `mongodb+srv://adamlavie2369:${process.env.DB_PASSWORD}@cluster0.efk0fgf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -11,15 +11,22 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const binSchema = new mongoose.Schema({
     binID: { type: String, required: true, unique: true },
-    dis: { type: Number, required: true },
-    location: {
+    currentDis: { type: Number, required: true },
+    currentLoc: {
         loc: { type: String, required: true },
         region: { type: String, required: true },
         country: { type: String, required: true }
     },
+    logs: [
+        {
+            dis: { type: Number, required: true },
+            timestamp: { type: Date, default: Date.now }
+        }
+    ],
+    lastLogTimestamp: { type: Date, default: Date.now },
     timestamp: { type: Date, default: Date.now }
 });
-const Bucket = mongoose.model('Bin', binSchema);
+const Bin = mongoose.model('Bin', binSchema);
 
 const mqttServer = 'mqtt://broker.hivemq.com';
 const mqttTopic = 'lele-dumbo-testing';
@@ -31,36 +38,45 @@ app.use(bodyParser.json());
 mqttClient.on('connect', () => {
     console.log('Connected to MQTT Broker');
     mqttClient.subscribe(mqttTopic, err => {
-        if (err) {
-            console.error('Failed to subscribe to topic:', err);
-        } else {
-            console.log(`Subscribed to topic: ${mqttTopic}`);
-        }
+        if (err) console.error('Failed to subscribe to topic:', err);
     });
 });
 
 mqttClient.on('message', async (topic, message) => {
     if (topic === mqttTopic) {
-        console.log(`Received message: ${message.toString()}`);
-
         try {
             const data = JSON.parse(message.toString());
-            const bucketData = {
+            const binData = {
                 binID: data.binID,
-                dis: data.dis,
-                location: {
+                currentDis: data.dis,
+                currentLoc: {
                     loc: data.location.loc,
                     region: data.location.region,
                     country: data.location.country
-                },
-                timestamp: new Date()
+                }
             };
 
-            await Bucket.findOneAndUpdate(
-                { binID: data.binID }, // Match existing bucket by binID
-                bucketData,           // Update with new data
-                { upsert: true, new: true } // Insert if not found
-            );
+            const existingBin = await Bin.findOne({ binID: data.binID });
+
+            if (existingBin) {
+                existingBin.currentDis = data.dis;
+                existingBin.currentLoc = binData.currentLoc;
+
+                const now = new Date();
+                if (!existingBin.lastLogTimestamp || now - existingBin.lastLogTimestamp >= 5 * 60 * 1000) {
+                    existingBin.logs.push({ dis: data.dis });
+                    existingBin.lastLogTimestamp = now;
+                }
+                await existingBin.save();
+            } else {
+                // Create a new bin record if not found
+                const newBin = new Bin({
+                    ...binData,
+                    logs: [{ dis: data.dis }],
+                    lastLogTimestamp: new Date()
+                });
+                await newBin.save();
+            }
             console.log('Bin data saved/updated in MongoDB');
         } catch (err) {
             console.error('Error processing MQTT message:', err);
@@ -68,14 +84,12 @@ mqttClient.on('message', async (topic, message) => {
     }
 });
 
-// HTTP Endpoints
 app.get('/data/:binID', async (req, res) => {
     const binID = req.params.binID;
-
     try {
-        const bucket = await Bucket.findOne({ binID });
-        if (bucket) {
-            res.json({ success: true, data: bucket });
+        const bin = await Bin.findOne({ binID });
+        if (bin) {
+            res.json({ success: true, data: bin });
         } else {
             res.status(404).json({ success: false, message: 'Bin not found' });
         }
@@ -83,21 +97,18 @@ app.get('/data/:binID', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
     }
 });
+
 
 app.get('/data', async (req, res) => {
     try {
-        const buckets = await Bucket.find();
-        if (buckets) {
-            res.json({ success: true, data: buckets });
-        } else {
-            res.status(404).json({ success: false, message: 'Bin not found' });
-        }
+        const bins = await Bin.find(); 
+        res.json({ success: true, data: bins });
     } catch (err) {
         res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
     }
 });
 
-// Start Server
+
 const port = 5000;
 app.listen(port, () => {
     console.log(`HTTP server running at http://localhost:${port}`);
