@@ -14,6 +14,9 @@ const nextConfig = {
   // images: {
   //   domains: ['https://aceternity.com'],
   // },
+  experimental: {
+    esmExternals: "loose", // Cấu hình này giúp Next.js sử dụng ESM imports một cách thoải mái hơn
+  },
   images: {
     remotePatterns: [
       {

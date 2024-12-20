@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import "@/styles/custom.scss";
 import Layout from "@/layout";
 import StoreProvider from "@/context";
+import 'leaflet/dist/leaflet.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
