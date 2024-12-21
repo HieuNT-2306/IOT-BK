@@ -21,15 +21,15 @@ const createClusterCustomIcon = function (cluster: any) {
 // markers
 const markers: { geocode: [number, number]; popUp: string }[] = [
   {
-    geocode: [48.86, 2.3522],
+    geocode: [10.823000, 106.629600],
     popUp: "Hello, I am pop up 1",
   },
   {
-    geocode: [48.85, 2.3522],
+    geocode: [21.005401, 105.846295],
     popUp: "Hello, I am pop up 2",
   },
   {
-    geocode: [48.855, 2.34],
+    geocode: [21.005826, 105.853897],
     popUp: "Hello, I am pop up 3",
   },
 ];
@@ -38,10 +38,10 @@ const Page = () =>  {
 
   const defaultProps = {
     center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
+      lat: 21.0052578,
+      lng: 105.8434198,
     },
-    zoom: 11,
+    zoom: 13,
   };
   return (
     <div style={{ height: '100vh', width: '100%' }}>

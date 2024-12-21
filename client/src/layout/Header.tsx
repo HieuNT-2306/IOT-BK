@@ -41,10 +41,10 @@ const Header = () => {
   };
 
   return (
-    <div className="flex w-screen h-[6vh] border-b-[1px] border-[#c7c7c7] fixed items-center top-0 right-0 justify-between bg-[#F4F7FE] px-[24px] shadow-b-lg">
+    <div className="flex w-screen h-full border-b-[1px] border-[#c7c7c7]  justify-between bg-[#F4F7FE] px-[24px] shadow-b-lg">
       <div className="flex items-center justify-start gap-2">
         <Image src={logo} alt="logo" />
-        <span className="text-[32.67px] text-[#181818] font-[300] leading-[45.73px] "><span className="text-[#181818] text-[32.67px] font-[700] leading-[45.73px]">VICAM</span> AI</span>
+        <span className="text-[32.67px] text-[#181818] font-[300] leading-[45.73px] "><span className="text-[#181818] text-[32.67px] font-[700] leading-[45.73px]">SMART</span> BIN</span>
       </div>
       <div className="relative flex items-center justify-end gap-5">
         <div className="bg-white">

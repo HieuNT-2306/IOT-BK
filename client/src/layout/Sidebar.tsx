@@ -11,7 +11,7 @@ import iconNoti from "@/assets/icons/icon-noti.svg";
 import iconSetting from "@/assets/icons/icon-setting.svg";
 
 const dataSidebar = [
-  { icon: iconMain, title: "Home", path: "/home" },
+  { icon: iconMain, title: "Home", path: "/" },
   { icon: iconStatistical, title: "Statistical", path: "/statistical" },
   { icon: iconManage, title: "Manage", path: "/manage" },
   { icon: iconNoti, title: "Notification", path: "/notification" },

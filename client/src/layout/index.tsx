@@ -16,14 +16,14 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen w-screen">
     {!isMounted && <Loading />}
-    {showHeader && (
-      <div className="h-[6vh] w-full">
+
+      <div className="h-[7vh] w-full">
         <Header />
       </div>
-    )}
-    <div className="flex flex-row h-full">
+    
+    <div className="flex flex-row h-[93vh]">
       {showSidebar && (
         <div className="h-full w-[4vw]">
           <Sidebar />

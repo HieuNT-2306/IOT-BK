@@ -21,15 +21,15 @@ const createClusterCustomIcon = function (cluster: any) {
 // markers
 const markers: { geocode: [number, number]; popUp: string }[] = [
   {
-    geocode: [48.86, 2.3522],
+    geocode: [21.005200, 105.549600],
     popUp: "Hello, I am pop up 1",
   },
   {
-    geocode: [48.85, 2.3522],
+    geocode: [21.005401, 105.846295],
     popUp: "Hello, I am pop up 2",
   },
   {
-    geocode: [48.855, 2.34],
+    geocode: [21.005826, 105.853897],
     popUp: "Hello, I am pop up 3",
   },
 ];
@@ -38,14 +38,14 @@ const Map = () =>  {
 
   const defaultProps = {
     center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
+      lat: 21.0052578,
+      lng: 105.8434198,
     },
-    zoom: 11,
+    zoom: 14,
   };
   return (
     <div className="w-full h-full">
-      <MapContainer center={defaultProps.center} zoom={defaultProps.zoom} style={{ height: "100%", width: "100%" }}>
+      <MapContainer center={defaultProps.center} zoom={defaultProps.zoom} style={{ height: "100%", width: "100%", borderRadius: "10px" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
