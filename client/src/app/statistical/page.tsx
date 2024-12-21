@@ -20,7 +20,7 @@ const items = [
 const tabBin = (id: string, ) => {
   return (
     <div className="flex flex-col gap-4 basis-[10%] text-black h-full border-r-[1px] px-4 border-[#c7c7c7]">
-      <span> {id}</span>
+      <span> Thống kế &gt; Thùng rác {id}</span>
     <ChartOver/>
     </div>
   )

@@ -1,5 +1,5 @@
 "use client";
-import { getProfile } from "@/api/user";
+import { getBin, getProfile } from "@/api/user";
 import { usePathname, useRouter } from "next/navigation";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -12,6 +12,7 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [collapsed, setCollapsed] = useState(true);
   const [profile, setProfile] = useState({});
+  const [bin, setBin] = useState({});
   const router = useRouter();
   const pathname = usePathname();
 
@@ -27,24 +28,31 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const response = await getProfile();
-  //       setProfile(response);
-  //     } catch (error) {
-  //       console.error("Error fetching profile:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+       // const response = await getProfile();
+       // setProfile(response);
+       const responseBin = await getBin();
+       setBin(responseBin);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
 
-  //   fetchProfile();
-  // }, []);
+    fetchProfile();
+    const intervalId = setInterval(fetchProfile, 100000); // Gọi lại hàm fetchProfile mỗi 100 giây
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+
 
   
 
   return (
     <storeContext.Provider
-      value={{ showHeader, setShowHeader, showSidebar, setShowSidebar,collapsed, toggleCollapsed, profile }}
+      value={{ showHeader, setShowHeader, showSidebar, setShowSidebar,collapsed, toggleCollapsed, profile, bin}}
     >
       {children}
     </storeContext.Provider>

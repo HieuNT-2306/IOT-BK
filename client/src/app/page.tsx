@@ -21,41 +21,12 @@ const AnyReactComponent = ({
   text: string;
 }) => <div>{text}</div>;
 const Page = () => {
-  const [markers, setMarkers] = useState([]);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<
-    string | StaticImageData | null
-  >(null);
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
-    },
-    zoom: 11,
-  };
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-  const [rectangle, setRectangle] = useState<{
-    xA: number;
-    yA: number;
-    xB: number;
-    yB: number;
-  } | null>({
-    xA: 50,
-    yA: 50,
-    xB: 150,
-    yB: 150,
-  });
 
-  const { profile } = useStore();
+  const { profile, bin } = useStore();
   console.log(profile);
+  console.log(bin);
   useEffect(() => {
     if (profile?.map) {
       setImageSrc(profile?.map?.url);

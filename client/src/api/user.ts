@@ -96,6 +96,16 @@ export const login = async (email: string, password: string) => {
   return response?.data;
 };
 
+  export const getBin = async() => {
+    try {
+      const response = await axiosInstance.get("/bin");
+      return response?.data;
+    }
+    catch (error) {
+      console.error("Error fetching bin:", error);
+    }
+  }
+
 // export const getProfile = async () => {
 //   setAuthToken(getCookie("token") || "");
 //   const response = await axiosInstance.get("/users/get-profile");
