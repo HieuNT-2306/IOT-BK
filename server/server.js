@@ -3,6 +3,14 @@ const express = require('express');
 const mqtt = require('mqtt');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // Một số trình duyệt cũ (IE11, một số phiên bản SmartTV) không hiểu trạng thái 204
+  };
+  
+  app.use(cors(corsOptions)); 
 
 const mongoURI = `mongodb+srv://adamlavie2369:${process.env.DB_PASSWORD}@cluster0.efk0fgf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
