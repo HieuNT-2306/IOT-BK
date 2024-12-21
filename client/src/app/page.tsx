@@ -7,6 +7,7 @@ import Image, { StaticImageData } from "next/image";
 import { useStore } from "@/context";
 import ModalSettingBin from "@/components/modal/ModalSettingBin";
 import GoogleMapReact from "google-map-react";
+import Map from "@/components/map";
 
 const AnyReactComponent = ({
   lat,
@@ -137,19 +138,7 @@ const Page = () => {
             />
           )}
           <div className="w-full h-96">
-          <GoogleMapReact
-            bootstrapURLKeys={{
-              key: "AIzaSyCB9yG-Z6HFGVoPjM6x2W5lr0DZs16BpsE",
-            }}
-            defaultCenter={defaultProps.center}
-            defaultZoom={defaultProps.zoom}
-          >
-            <AnyReactComponent
-              lat={59.955413}
-              lng={30.337844}
-              text="My Marker"
-            />
-          </GoogleMapReact>
+            <Map/>
           </div>
           <Button
             className="font-[600] text-[14px] leading-6 text-white bg-[#161A23] w-[140px]"

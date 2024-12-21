@@ -34,7 +34,7 @@ const markers: { geocode: [number, number]; popUp: string }[] = [
   },
 ];
 
-const Page = () =>  {
+const Map = () =>  {
 
   const defaultProps = {
     center: {
@@ -44,7 +44,7 @@ const Page = () =>  {
     zoom: 11,
   };
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div className="w-full h-full">
       <MapContainer center={defaultProps.center} zoom={defaultProps.zoom} style={{ height: "100%", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -63,4 +63,4 @@ const Page = () =>  {
   );
 };
 
-export default Page;
+export default Map;

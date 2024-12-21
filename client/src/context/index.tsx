@@ -27,18 +27,18 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await getProfile();
-        setProfile(response);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProfile = async () => {
+  //     try {
+  //       const response = await getProfile();
+  //       setProfile(response);
+  //     } catch (error) {
+  //       console.error("Error fetching profile:", error);
+  //     }
+  //   };
 
-    fetchProfile();
-  }, []);
+  //   fetchProfile();
+  // }, []);
 
   
 

@@ -96,8 +96,8 @@ export const login = async (email: string, password: string) => {
   return response?.data;
 };
 
-export const getProfile = async () => {
-  setAuthToken(getCookie("token") || "");
-  const response = await axiosInstance.get("/users/get-profile");
-  return response?.data;
-};
+// export const getProfile = async () => {
+//   setAuthToken(getCookie("token") || "");
+//   const response = await axiosInstance.get("/users/get-profile");
+//   return response?.data;
+// };
